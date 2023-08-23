@@ -18,9 +18,9 @@ public class StudentController {
         return newStudent;
     }
     @GetMapping
-    public Long getStudent(@RequestBody Long getStudent){
+    public Student getStudent(@RequestBody Long getStudent){
         studentService.getStudent(getStudent);
-        return getStudent;
+        return studentService.getStudent(getStudent);
     }
     @PostMapping
     public Student addStudent(@RequestBody Long counter,@RequestBody Student putStudent){
