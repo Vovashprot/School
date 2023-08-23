@@ -1,5 +1,7 @@
 package ru.hogwarts.school.controller;
 
+import org.apache.catalina.connector.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
@@ -16,27 +18,26 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student addStudent(@RequestBody Student newStudent){
+    public ResponseEntity<Student> addStudent(@RequestBody Student newStudent){
         studentService.createStudent(newStudent);
-        return newStudent;
+        return ResponseEntity.ok(newStudent);
     }
     @GetMapping
-    public Student getStudent(@RequestBody Long getStudentNumber){
-        studentService.getStudent(getStudentNumber);
-        return studentService.getStudent(getStudentNumber);
+    public ResponseEntity<Student> getStudent(@RequestBody Long getStudentNumber){
+        return ResponseEntity.ok(studentService.getStudent(getStudentNumber));
     }
     @PutMapping
-    public Student putStudent(@RequestBody Long counter,@RequestBody Student putStudent){
+    public ResponseEntity<Student> putStudent(@RequestBody Long counter,@RequestBody Student putStudent){
         studentService.editStudent(counter,putStudent);
-        return putStudent;
+        return ResponseEntity.ok(putStudent);
     }
     @DeleteMapping
-    public Student removeStudent(@RequestBody Long removeStudentNumber){
+    public ResponseEntity<Student> removeStudent(@RequestBody Long removeStudentNumber){
         studentService.removeStudent(removeStudentNumber);
-        return studentService.getStudent(removeStudentNumber);
+        return ResponseEntity.ok(studentService.getStudent(removeStudentNumber));
     }
     @GetMapping("/all")
-    public Collection<Student> getStudent(){
-        return studentService.getAllStudents();
+    public ResponseEntity<Collection<Student>> getStudent(){
+        return ResponseEntity.ok(studentService.getAllStudents());
     }
 }

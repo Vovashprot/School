@@ -16,15 +16,21 @@ public class StudentService {
         return newStudent;
     }
 
-    public Student getStudent (Long counter){
+    public Student getStudent (Long counterLocal){
+        if (counterLocal>counter){
+            throw new RuntimeException();
+        }
         return studentMap.get(counter);
     }
 
-    public Student editStudent (Long counter,Student newStudent){
+    public Student editStudent (Long counterLocal,Student newStudent){
+        if (counterLocal>counter){
+            throw new RuntimeException();
+        }
         studentMap.put(counter,newStudent);
         return studentMap.get(counter);
     }
-    public Student removeStudent (Long counter){
+    public Student removeStudent (Long counterLocal){
         studentMap.remove(counter);
         return studentMap.get(counter);
     }
