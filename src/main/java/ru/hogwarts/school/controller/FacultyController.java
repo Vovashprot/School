@@ -15,25 +15,25 @@ public class FacultyController {
     }
 
     @PostMapping
-    public Faculty addStudent(@RequestBody Faculty newStudent) {
-        facultyService.createFaculty(newStudent);
-        return newStudent;
+    public Faculty addFaculty(@RequestBody Faculty newFaculty) {
+        facultyService.createFaculty(newFaculty);
+        return newFaculty;
     }
 
     @GetMapping
-    public Faculty getStudent(@RequestBody Long getStudent) {
-        facultyService.getFaculty(getStudent);
-        return facultyService.getFaculty(getStudent);
+    public Faculty getFaculty(@RequestBody Long getFaculty) {
+        facultyService.getFaculty(getFaculty);
+        return facultyService.getFaculty(getFaculty);
     }
 
-    @PostMapping
-    public Faculty addStudent(@RequestBody Long counter, @RequestBody Faculty putFaculty) {
+    @PutMapping
+    public Faculty putFaculty(@RequestBody Long counter, @RequestBody Faculty putFaculty) {
         facultyService.editFaculty(counter, putFaculty);
         return putFaculty;
     }
 
-    @GetMapping
-    public Faculty removeStudent(@RequestBody Long removeFaculty) {
+    @DeleteMapping
+    public Faculty removeFaculty(@RequestBody Long removeFaculty) {
         facultyService.removeFaculty(removeFaculty);
         return facultyService.getFaculty(removeFaculty);
     }
