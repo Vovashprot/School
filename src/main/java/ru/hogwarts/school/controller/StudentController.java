@@ -3,6 +3,9 @@ package ru.hogwarts.school.controller;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
+
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/Student")
 public class StudentController {
@@ -18,9 +21,9 @@ public class StudentController {
         return newStudent;
     }
     @GetMapping
-    public Student getStudent(@RequestBody Long getStudent){
-        studentService.getStudent(getStudent);
-        return studentService.getStudent(getStudent);
+    public Student getStudent(@RequestBody Long getStudentNumber){
+        studentService.getStudent(getStudentNumber);
+        return studentService.getStudent(getStudentNumber);
     }
     @PutMapping
     public Student putStudent(@RequestBody Long counter,@RequestBody Student putStudent){
@@ -28,8 +31,12 @@ public class StudentController {
         return putStudent;
     }
     @DeleteMapping
-    public Student removeStudent(@RequestBody Long removeStudent){
-        studentService.removeStudent(removeStudent);
-        return studentService.getStudent(removeStudent);
+    public Student removeStudent(@RequestBody Long removeStudentNumber){
+        studentService.removeStudent(removeStudentNumber);
+        return studentService.getStudent(removeStudentNumber);
+    }
+    @GetMapping("/all")
+    public Collection<Student> getStudent(){
+        return studentService.getAllStudents();
     }
 }

@@ -3,6 +3,7 @@ package ru.hogwarts.school.service;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
 
+import java.util.Collection;
 import java.util.HashMap;
 @Service
 public class StudentService {
@@ -26,5 +27,8 @@ public class StudentService {
     public Student removeStudent (Long counter){
         studentMap.remove(counter);
         return studentMap.get(counter);
+    }
+    public Collection<Student> getAllStudents(){
+        return studentMap.values();
     }
 }

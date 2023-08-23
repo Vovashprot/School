@@ -21,9 +21,8 @@ public class FacultyController {
     }
 
     @GetMapping
-    public Faculty getFaculty(@RequestBody Long getFaculty) {
-        facultyService.getFaculty(getFaculty);
-        return facultyService.getFaculty(getFaculty);
+    public Faculty getFaculty(@RequestBody Long getFacultyNumber){
+        return facultyService.getFaculty(getFacultyNumber);
     }
 
     @PutMapping
@@ -33,8 +32,8 @@ public class FacultyController {
     }
 
     @DeleteMapping
-    public Faculty removeFaculty(@RequestBody Long removeFaculty) {
-        facultyService.removeFaculty(removeFaculty);
-        return facultyService.getFaculty(removeFaculty);
+    public Faculty removeFaculty(@RequestBody Long removeFacultyNumber) {
+        facultyService.removeFaculty(removeFacultyNumber);
+        return facultyService.getFaculty(removeFacultyNumber);
     }
 }
