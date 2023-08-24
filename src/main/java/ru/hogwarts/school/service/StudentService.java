@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 
 import java.util.Collection;
@@ -11,8 +12,8 @@ public class StudentService {
     Long counter = 0L;
 
     public Student createStudent (Student newStudent){
-        studentMap.put(counter,newStudent);
-        counter++;
+        newStudent.setId(counter++);
+        studentMap.put(newStudent.getId(),newStudent);
         return newStudent;
     }
 
@@ -24,15 +25,14 @@ public class StudentService {
     }
 
     public Student editStudent (Long counterLocal,Student newStudent){
-        if (counterLocal>counter){
-            throw new RuntimeException();
+        if (!studentMap.containsKey(newStudent.getId())) {
+            return null;
         }
         studentMap.put(counter,newStudent);
         return studentMap.get(counter);
     }
-    public Student removeStudent (Long counterLocal){
-        studentMap.remove(counter);
-        return studentMap.get(counter);
+    public Student removeStudent (Long id){
+        return studentMap.get(id);
     }
     public Collection<Student> getAllStudents(){
         return studentMap.values();

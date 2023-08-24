@@ -4,14 +4,15 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 
+import java.util.Collection;
 import java.util.HashMap;
 @Service
 public class FacultyService {
     HashMap<Long,Faculty> facultyMap;
     Long counter = 0L;
     public Faculty createFaculty (Faculty newFaculty){
-        facultyMap.put(counter,newFaculty);
-        counter++;
+        newFaculty.setId(counter++);
+        facultyMap.put(newFaculty.getId(),newFaculty);
         return newFaculty;
     }
 
@@ -20,11 +21,16 @@ public class FacultyService {
     }
 
     public Faculty editFaculty (Long counter,Faculty newFaculty){
+        if (!facultyMap.containsKey(newFaculty.getId())) {
+            return null;
+        }
         facultyMap.put(counter,newFaculty);
-        return facultyMap.get(counter);
+        return newFaculty;
     }
-    public Faculty removeFaculty (Long counter){
-        facultyMap.remove(counter);
-        return facultyMap.get(counter);
+    public Faculty removeFaculty (Long id){
+        return facultyMap.remove(id);
+    }
+    public Collection<Faculty> getAllFaculties(){
+        return facultyMap.values();
     }
 }

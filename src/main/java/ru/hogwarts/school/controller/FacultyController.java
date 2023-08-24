@@ -1,12 +1,15 @@
 package ru.hogwarts.school.controller;
 
+import org.apache.catalina.connector.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
+import java.util.Collection;
+
 @RestController
-@RequestMapping ("/Faculty")
+@RequestMapping("/Faculty")
 public class FacultyController {
     private final FacultyService facultyService;
 
@@ -15,25 +18,26 @@ public class FacultyController {
     }
 
     @PostMapping
-    public Faculty addFaculty(@RequestBody Faculty newFaculty) {
+    public ResponseEntity<Faculty> addFaculty(@RequestBody Faculty newFaculty){
         facultyService.createFaculty(newFaculty);
-        return newFaculty;
+        return ResponseEntity.ok(newFaculty);
     }
-
     @GetMapping
-    public Faculty getFaculty(@RequestBody Long getFacultyNumber){
-        return facultyService.getFaculty(getFacultyNumber);
+    public ResponseEntity<Faculty> getFaculty(@RequestBody Long getFacultyNumber){
+        return ResponseEntity.ok(facultyService.getFaculty(getFacultyNumber));
     }
-
     @PutMapping
-    public Faculty putFaculty(@RequestBody Long counter, @RequestBody Faculty putFaculty) {
-        facultyService.editFaculty(counter, putFaculty);
-        return putFaculty;
+    public ResponseEntity<Faculty> putFaculty(@RequestBody Long counter,@RequestBody Faculty putFaculty){
+        facultyService.editFaculty(counter,putFaculty);
+        return ResponseEntity.ok(putFaculty);
     }
-
     @DeleteMapping
-    public Faculty removeFaculty(@RequestBody Long removeFacultyNumber) {
+    public ResponseEntity<Faculty> removeFaculty(@RequestBody Long removeFacultyNumber){
         facultyService.removeFaculty(removeFacultyNumber);
-        return facultyService.getFaculty(removeFacultyNumber);
+        return ResponseEntity.ok(facultyService.getFaculty(removeFacultyNumber));
+    }
+    @GetMapping("/all")
+    public ResponseEntity<Collection<Faculty>> getFaculty(){
+        return ResponseEntity.ok(facultyService.getAllFaculties());
     }
 }
