@@ -8,24 +8,27 @@ import java.util.Collection;
 import java.util.HashMap;
 @Service
 public class FacultyService {
-    HashMap<Long,Faculty> facultyMap;
-    Long counter = 0L;
+    HashMap<Long,Faculty> facultyMap = new HashMap<>();
+    long counter = 0L;
     public Faculty createFaculty (Faculty newFaculty){
         newFaculty.setId(counter++);
         facultyMap.put(newFaculty.getId(),newFaculty);
         return newFaculty;
     }
 
-    public Faculty getFaculty (Long counter){
-        return facultyMap.get(counter);
+    public Faculty getFaculty (Long counterLocal){
+        if (counterLocal>counter){
+            throw new RuntimeException();
+        }
+        return facultyMap.get(counterLocal);
     }
 
-    public Faculty editFaculty (Long counter,Faculty newFaculty){
+    public Faculty editFaculty (Long counterLocal,Faculty newFaculty){
         if (!facultyMap.containsKey(newFaculty.getId())) {
             return null;
         }
-        facultyMap.put(counter,newFaculty);
-        return newFaculty;
+        facultyMap.put(counterLocal,newFaculty);
+        return facultyMap.get(counterLocal);
     }
     public Faculty removeFaculty (Long id){
         return facultyMap.remove(id);

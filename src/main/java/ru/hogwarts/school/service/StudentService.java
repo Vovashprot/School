@@ -8,8 +8,8 @@ import java.util.Collection;
 import java.util.HashMap;
 @Service
 public class StudentService {
-    HashMap<Long, Student> studentMap;
-    Long counter = 0L;
+    HashMap<Long, Student> studentMap = new HashMap<>();
+    long counter = 0L;
 
     public Student createStudent (Student newStudent){
         newStudent.setId(counter++);
@@ -21,18 +21,18 @@ public class StudentService {
         if (counterLocal>counter){
             throw new RuntimeException();
         }
-        return studentMap.get(counter);
+        return studentMap.get(counterLocal);
     }
 
     public Student editStudent (Long counterLocal,Student newStudent){
         if (!studentMap.containsKey(newStudent.getId())) {
             return null;
         }
-        studentMap.put(counter,newStudent);
-        return studentMap.get(counter);
+        studentMap.put(counterLocal,newStudent);
+        return studentMap.get(counterLocal);
     }
     public Student removeStudent (Long id){
-        return studentMap.get(id);
+        return studentMap.remove(id);
     }
     public Collection<Student> getAllStudents(){
         return studentMap.values();
