@@ -1,6 +1,6 @@
 package ru.hogwarts.school.controller;
 
-import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
@@ -18,18 +18,25 @@ public class FacultyController {
     }
 
     @PostMapping
-    public ResponseEntity<Faculty> addFaculty(@RequestBody Faculty newFaculty){
+    public Faculty addFaculty(@RequestBody Faculty newFaculty){
         facultyService.createFaculty(newFaculty);
-        return ResponseEntity.ok(newFaculty);
+        return facultyService.createFaculty(newFaculty);
     }
     @GetMapping
     public ResponseEntity<Faculty> getFaculty(@RequestBody Long getFacultyNumber){
-        return ResponseEntity.ok(facultyService.getFaculty(getFacultyNumber));
+        Faculty faculty = facultyService.getFaculty(getFacultyNumber);
+        if (faculty ==null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(faculty);
     }
     @PutMapping
-    public ResponseEntity<Faculty> putFaculty(@RequestBody Long counter,@RequestBody Faculty putFaculty){
-        facultyService.editFaculty(putFaculty);
-        return ResponseEntity.ok(putFaculty);
+    public ResponseEntity<Faculty> putFaculty(@RequestBody Faculty putFaculty){
+        Faculty faculty = facultyService.editFaculty(putFaculty);
+        if (faculty==null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(faculty);
     }
     @DeleteMapping
     public ResponseEntity<Faculty> removeFaculty(@RequestBody Long removeFacultyNumber){
