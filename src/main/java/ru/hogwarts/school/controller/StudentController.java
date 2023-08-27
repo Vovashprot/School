@@ -4,6 +4,7 @@ import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
@@ -28,13 +29,13 @@ public class StudentController {
     }
     @PutMapping
     public ResponseEntity<Student> putStudent(@RequestBody Long counter,@RequestBody Student putStudent){
-        studentService.editStudent(counter,putStudent);
+        studentService.editStudent(putStudent);
         return ResponseEntity.ok(putStudent);
     }
     @DeleteMapping
     public ResponseEntity<Student> removeStudent(@RequestBody Long removeStudentNumber){
         studentService.removeStudent(removeStudentNumber);
-        return ResponseEntity.ok(studentService.getStudent(removeStudentNumber));
+        return ResponseEntity.ok().build();
     }
     @GetMapping("/all")
     public ResponseEntity<Collection<Student>> getStudent(){

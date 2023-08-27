@@ -28,13 +28,13 @@ public class FacultyController {
     }
     @PutMapping
     public ResponseEntity<Faculty> putFaculty(@RequestBody Long counter,@RequestBody Faculty putFaculty){
-        facultyService.editFaculty(counter,putFaculty);
+        facultyService.editFaculty(putFaculty);
         return ResponseEntity.ok(putFaculty);
     }
     @DeleteMapping
     public ResponseEntity<Faculty> removeFaculty(@RequestBody Long removeFacultyNumber){
         facultyService.removeFaculty(removeFacultyNumber);
-        return ResponseEntity.ok(facultyService.getFaculty(removeFacultyNumber));
+        return ResponseEntity.ok().build();
     }
     @GetMapping("/all")
     public ResponseEntity<Collection<Faculty>> getFaculty(){

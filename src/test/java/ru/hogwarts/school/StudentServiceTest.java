@@ -3,6 +3,7 @@ package ru.hogwarts.school;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repositories.StudentRepository;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.ArrayList;
@@ -13,9 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class StudentServiceTest {
+    StudentRepository studentRepository;
     @BeforeEach
     public void setUp(){
-        studentService = new StudentService();
+        studentService = new StudentService(studentRepository);
     }
     StudentService studentService;
     @Test
@@ -44,8 +46,8 @@ public class StudentServiceTest {
     @Test
     public void editStudentTest(){
         Student dude = new Student(0l,"dasda",15);
-        Student dude2 = new Student(0l,"dassada",15);
+        Student dude2 = new Student(1l,"dassada",15);
         studentService.createStudent(dude);
-        assertEquals(studentService.editStudent(0l,dude2),dude2);
+        assertEquals(studentService.editStudent(,dude2),dude2);
     }
 }
