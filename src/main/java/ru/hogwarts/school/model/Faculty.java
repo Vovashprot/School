@@ -2,10 +2,12 @@ package ru.hogwarts.school.model;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+import java.util.Collection;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Faculty {
@@ -14,6 +16,8 @@ public class Faculty {
     private long id;
     private String name;
     private String color;
+    @OneToMany (mappedBy = "faculty")
+    private Collection<Student> students;
 
     public Faculty() {
     }
