@@ -3,12 +3,15 @@ package ru.hogwarts.school.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
-public class FacultyService {
+public class
+FacultyService {
     @Autowired
     private final FacultyRepository facultyRepository;
 
@@ -32,5 +35,11 @@ public class FacultyService {
     }
     public Collection<Faculty> getAllFaculties(){
         return facultyRepository.findAll();
+    }
+    public List<Faculty> findByColorContainingIgnoreCaseOrNameContainingIgnoreCase (String color, String name){
+        return facultyRepository.findByColorContainingIgnoreCaseOrNameContainingIgnoreCase(color,name);
+    }
+    public Faculty findByStudents(Student student){
+        return facultyRepository.findByStudents(student);
     }
 }

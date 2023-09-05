@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student,Long> {
     List<Student> findByAgeBetween(int min, int max);
+    List<Student> findByFacultyContaining(String nane);
 }

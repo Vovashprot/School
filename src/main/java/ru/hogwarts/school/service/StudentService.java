@@ -6,6 +6,8 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
+import java.util.List;
+
 @Service
 public class StudentService {
     @Autowired
@@ -31,5 +33,12 @@ public class StudentService {
     }
     public Collection<Student> getAllStudents(){
         return studentRepository.findAll();
+    }
+    public List<Student> findStudentByAgeBetween(int minAge, int maxAge){
+        return studentRepository.findByAgeBetween(minAge, maxAge);
+    }
+
+    public List<Student> findStudentByFaculty(String name){
+        return studentRepository.findByFacultyContaining(name);
     }
 }
