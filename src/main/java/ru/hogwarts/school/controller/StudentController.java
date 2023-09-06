@@ -32,13 +32,13 @@ public class StudentController {
         }
         return ResponseEntity.ok(student);
     }
-    @GetMapping
-    public List<Student> getStudentByFaculty(@RequestBody String faculty){
+    @GetMapping("/byFaculty")
+    public List<Student> getStudentByFaculty(@RequestParam String faculty){
 
         return studentService.findStudentByFaculty(faculty);
     }
-    @GetMapping
-    public List<Student> getStudentByAge(@RequestBody int min, int max){
+    @GetMapping("byAge")
+    public List<Student> getStudentByAge(@RequestParam int min, @RequestParam int max){
 
         return studentService.findStudentByAgeBetween( min,  max);
     }
