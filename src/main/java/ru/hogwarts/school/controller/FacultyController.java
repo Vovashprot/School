@@ -32,11 +32,11 @@ public class FacultyController {
         }
         return ResponseEntity.ok(faculty);
     }
-    @GetMapping
+    @GetMapping("byColor")
     public List<Faculty> findByColorOrName(@RequestBody String color, String name){
         return facultyService.findByColorContainingIgnoreCaseOrNameContainingIgnoreCase(color,name);
     }
-    @GetMapping
+    @GetMapping("byStudents")
     public Faculty findByStudents(@RequestBody Student student){
         return facultyService.findByStudents(student);
     }
