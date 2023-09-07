@@ -38,6 +38,14 @@ public class Faculty {
         this.id = id;
     }
 
+    public Collection<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Collection<Student> students) {
+        this.students = students;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -52,6 +60,7 @@ public class Faculty {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", color='" + color + '\'' +
+                ", students=" + students +
                 '}';
     }
 
@@ -60,11 +69,11 @@ public class Faculty {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Faculty faculty = (Faculty) o;
-        return Objects.equals(getId(), faculty.getId()) && Objects.equals(getName(), faculty.getName()) && Objects.equals(getColor(), faculty.getColor());
+        return getId() == faculty.getId() && getName().equals(faculty.getName()) && getColor().equals(faculty.getColor()) && getStudents().equals(faculty.getStudents());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getColor());
+        return Objects.hash(getId(), getName(), getColor(), getStudents());
     }
 }
