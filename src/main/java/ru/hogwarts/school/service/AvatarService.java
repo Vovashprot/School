@@ -35,8 +35,8 @@ public class AvatarService {
         if(!dir.exists()){
             Files.createDirectories(Path.of(avatarDir));
         }
-        var dotIndex = file.getName().lastIndexOf(',');
-        var ext = file.getName().substring(dotIndex + 1);
+        var dotIndex = file.getOriginalFilename().lastIndexOf('.');
+        var ext = file.getOriginalFilename().substring(dotIndex + 1);
         var path = avatarDir + "/" + student.getId()+ "_" + file.getName() + "." + ext;
 
         try(var in = file.getInputStream();

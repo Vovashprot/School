@@ -38,6 +38,10 @@ public class AvatarController {
     @GetMapping ("/file/{studentId}")
     public void findFile(@PathVariable long studentId, HttpServletResponse response) throws IOException {
         Avatar avatar = service.find(studentId);
+        if (avatar == null){
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            return;
+        }
         try (var out = response.getOutputStream();
              var in = new FileInputStream(avatar.getFilePath())) {
             in.transferTo(out);
