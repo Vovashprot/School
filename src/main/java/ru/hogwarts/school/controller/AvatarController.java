@@ -10,45 +10,51 @@ import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.service.AvatarService;
 
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-@RequestMapping("/avatar")
 @RestController
+@RequestMapping("avatar")
 public class AvatarController {
-    private final AvatarService service;
+    private AvatarService avatarService;
 
-    public AvatarController(AvatarService service) {
-        this.service = service;
+    public AvatarController(AvatarService avatarService) {
+        this.avatarService = avatarService;
     }
-    @PostMapping("/{studentId}")
-    public void unload(@PathVariable long studentId, MultipartFile file) throws IOException {
-        service.upload(studentId, file);
+
+    @PostMapping(value = "/{studentId}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadAvatar(@PathVariable Long studentId, @RequestParam MultipartFile avatar) throws IOException {
+        avatarService.uploadAvatar(studentId, avatar);
+        return ResponseEntity.ok().build();
     }
-    @GetMapping ("/{studentId}")
-    public ResponseEntity<byte[]> find(@PathVariable long studentId){
-        var avatar = service.find(studentId);
+
+    @PostMapping(value = "/{studentId}/avatarFromInternet", consumes = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<String> uploadAvatarFromInternet(@PathVariable Long studentId, @RequestParam String path, @RequestParam String avatarName) throws IOException {
+        avatarService.uploadAvatarFromInternet(studentId, path, avatarName);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}/avatar-from-db")
+    public ResponseEntity <byte[]> downloadAvatar(@PathVariable Long id){
+        Avatar avatar = avatarService.findAvatar(id);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
         headers.setContentLength(avatar.getData().length);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(avatar.getData());
     }
-
-    @GetMapping ("/file/{studentId}")
-    public void findFile(@PathVariable long studentId, HttpServletResponse response) throws IOException {
-        Avatar avatar = service.find(studentId);
-        if (avatar == null){
-            response.setStatus(HttpStatus.NOT_FOUND.value());
-            return;
-        }
-        try (var out = response.getOutputStream();
-             var in = new FileInputStream(avatar.getFilePath())) {
-            in.transferTo(out);
+    @GetMapping(value = "/{id}/avatar-from-file")
+    public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException{
+        Avatar avatar = avatarService.findAvatar(id);
+        Path path = Path.of(avatar.getFilePath());
+        try(InputStream is = Files.newInputStream(path);
+            OutputStream os = response.getOutputStream();) {
             response.setStatus(200);
             response.setContentType(avatar.getMediaType());
             response.setContentLength((int) avatar.getFileSize());
-
+            is.transferTo(os);
         }
     }
 }

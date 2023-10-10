@@ -6,57 +6,46 @@ import java.util.Objects;
 
 public class Student {
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private int age;
-    @ManyToOne
-    @JoinColumn (name = "Faculty_id")
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
+
     public Student() {
+    }
+
+    public Student(Long id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public int getAge() {
+        return age;
+    }
+
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public Faculty getFaculty() {
-        return faculty;
-    }
-
-    public void setFaculty(Faculty faculty) {
-        this.faculty = faculty;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", faculty=" + faculty +
-                '}';
     }
 
     @Override
@@ -64,11 +53,18 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return getId() == student.getId() && getAge() == student.getAge() && getName().equals(student.getName()) && getFaculty().equals(student.getFaculty());
+        return age == student.age && id.equals(student.id) && name.equals(student.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getAge(), getFaculty());
+        return Objects.hash(id, name, age);
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + "\n" +
+                "имя: " + name + '\n' +
+                "возраст: " + age;
     }
 }
