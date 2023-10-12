@@ -4,6 +4,7 @@ package ru.hogwarts.school;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -24,9 +25,9 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@EnableAutoConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ApplicationTestsTestRestTemplate {
+class SchoolApplicationTests_TestRestTemplate {
 
     @LocalServerPort
     private int port;
@@ -47,7 +48,7 @@ class ApplicationTestsTestRestTemplate {
 
 
     @Test
-    void contextLoads() {
+    void contextLoads() throws Exception {
         assertNotNull(studentController);
         assertNotNull(facultyController);
     }
@@ -130,7 +131,7 @@ class ApplicationTestsTestRestTemplate {
 
 
     @Test
-    public void testEditFaculty() { //специально ради интереса двумя разными методами сделал.
+    public void testEditFaculty() {
         Faculty faculty = new Faculty(findLastFacultyId(), "КотэРван", "серый");
 
         ResponseEntity<Faculty> response = facultyController.editFaculty(faculty);
@@ -144,7 +145,6 @@ class ApplicationTestsTestRestTemplate {
 
     @Test
     void deleteStudentTest() {
-        //нахожу последнего студента, сохраняю его в переменную, а так же и его id, ...
         Student lastStudent = studentRepository.findById(findLastStudentId()).orElse(null);
         Long lastStudentId = (lastStudent == null) ? null : lastStudent.getId();
 
@@ -169,12 +169,11 @@ class ApplicationTestsTestRestTemplate {
 
     @Test
     void getAllStudentsTest() {
-        //создание заголовков
+
         HttpHeaders headers = new HttpHeaders();
 //        headers.set("accept", "application/json");
 //        headers.set("Authorization", "Bearer JWT TOKEN HERE");
         HttpEntity requestEntity = new HttpEntity<>(null, headers);
-        //создание запроса через метод exchange
         ResponseEntity<List<Student>> response = testRestTemplate.exchange(
                 "http://localhost:" + port + "/student", HttpMethod.GET, requestEntity,
                 new ParameterizedTypeReference<List<Student>>() {
@@ -188,17 +187,17 @@ class ApplicationTestsTestRestTemplate {
 
     @Test
     void getAllFacultyTest() {
-        //создание заголовков
+
         HttpHeaders headers = new HttpHeaders();
 //        headers.set("accept", "application/json");
 //        headers.set("Authorization", "Bearer JWT TOKEN HERE");
         HttpEntity requestEntity = new HttpEntity<>(null, headers);
-        //создание запроса через метод exchange
+
         ResponseEntity<List<Faculty>> response = testRestTemplate.exchange(
                 "http://localhost:" + port + "/faculty", HttpMethod.GET, requestEntity,
                 new ParameterizedTypeReference<List<Faculty>>() {
                 });
-        //получение списка студентов из тела запроса
+
         List<Faculty> faculties = response.getBody();
         System.out.println("faculties = " + faculties);
         assertNotNull(faculties);
@@ -207,12 +206,12 @@ class ApplicationTestsTestRestTemplate {
 
     @Test
     void getStudentsAccordingAge() {
-        //создаю студента
+
         int studentsAge = 25;
         studentRepository.save(new Student(findLastStudentId() + 1, "Лена Целофанова", studentsAge));
         long studentId = findLastStudentId();
 
-        //в блок try оборачиваю конструкцию, чтобы студент в блоке finally гарантированно удалялся.
+
         try {
             assertNotNull(this.testRestTemplate.getForObject(
                     "http://localhost:" + port + "/student/filter_by_age/" + studentsAge, String.class));
@@ -226,12 +225,12 @@ class ApplicationTestsTestRestTemplate {
 
     @Test
     void getFacultyAccordingColor() {
-        //создаю студента
+
         String facultyColor = "малиновый";
         facultyRepository.save(new Faculty(findLastFacultyId() + 1, "тестовыйФакультет", facultyColor));
         long facultyId = findLastFacultyId();
 
-        //в блок try оборачиваю конструкцию, чтобы факультет в блоке finally гарантированно удалялся.
+
         try {
             assertNotNull(this.testRestTemplate.getForObject(
                     "http://localhost:" + port + "/faculty/filter_by_color/?color=" + facultyColor, String.class));
