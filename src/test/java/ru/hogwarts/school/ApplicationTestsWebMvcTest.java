@@ -170,7 +170,7 @@ class ApplicationTestsWebMvcTest {
 
         Student student = new Student(id, name, age);
 
-        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));
+        when(studentRepository.getById(any(Long.class))).thenReturn(student);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/student/1")
@@ -194,7 +194,7 @@ class ApplicationTestsWebMvcTest {
 
         Faculty faculty = new Faculty(id, name, color);
 
-        when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(faculty));
+        when(facultyRepository.getById(any(Long.class))).thenReturn(faculty);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculty/1")

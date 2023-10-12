@@ -25,7 +25,7 @@ public class StudentController {
     }
     @GetMapping("{id}") //READ  http://localhost:8080/student/1
     public ResponseEntity<Student> findStudent(@PathVariable Long id){
-        Student student = studentService.findStudent(id).orElse(null);
+        Student student = studentService.findStudent(id);
         if(student == null){
             return ResponseEntity.notFound().build();
         }
