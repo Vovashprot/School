@@ -63,4 +63,17 @@ public class StudentController {
     public List<Student> findStudentByFaculty(@RequestBody Faculty faculty){
         return studentService.findStudentByFaculty(faculty);
     }
+
+    @GetMapping("/average-age")
+    public int avarageAge(){
+        return studentService.getStudentAverageAge();
+    }
+    @GetMapping("/student_count")
+    public int studentCount(){
+        return studentService.getStudentCount();
+    }
+    @GetMapping("/last_five_students")
+    public List<Student> lastStudents(){
+        return studentService.getLastStudents();
+    }
 }
